@@ -2,23 +2,28 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tp2simulation;
+package MultiAgent;
 
 /**
  *
  * @author canonico
  */
-public class Zombie extends Agent {
+public class Humain extends Agent{
 
-    public Zombie(Position pos) {
+    static int compteur=0;
+
+ 
+    public Humain(Position pos) {
         super(pos);
+        id=compteur;
+        compteur++;
     }
-    
+    int id;
     
     @Override
     public String toString() {
         StringBuilder sb=new StringBuilder();
-        sb.append("Z");
+        sb.append(id);
         return sb.toString();
     }
     

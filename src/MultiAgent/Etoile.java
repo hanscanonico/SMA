@@ -2,23 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tp2simulation;
+package MultiAgent;
 
 /**
  *
  * @author canonico
  */
-public class Humain extends Agent{
-
-    public Humain(Position pos) {
-        super(pos);
-    }
-
-    
-    @Override
+public class Etoile extends Ressource{
+       @Override
     public String toString() {
         StringBuilder sb=new StringBuilder();
-        sb.append("H");
+        sb.append("E");
         return sb.toString();
     }
     
