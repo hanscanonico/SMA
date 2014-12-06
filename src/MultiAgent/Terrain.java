@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -79,10 +80,11 @@ public class Terrain {
     private void deplacerLesAgents() {
         Agent temp;
         Position nouv;
-        Hashtable  dejaDeplacer=new Hashtable();
+        HashMap<Integer,Agent>  dejaDeplacer;
+        dejaDeplacer = new HashMap<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if(map[i][j]!=null && !dejaDeplacer.contains((Agent)map[i][j]))
+                if(map[i][j]!=null && !dejaDeplacer.containsValue((Agent)map[i][j]))
                 {
                     temp=(Agent)map[i][j];
                     do
