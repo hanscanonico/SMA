@@ -59,12 +59,13 @@ public class Fenetre extends Application {
                     @Override
                     public void handle(Event event) {
                         t.deplacerLesAgents();
+                        System.out.println(t);
                         step(gridPane);
 
                     }
 
                 }),
-                new KeyFrame(Duration.millis(200))
+                new KeyFrame(Duration.millis(100))
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         addButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -138,7 +139,7 @@ public class Fenetre extends Application {
                     else iv1.setImage(image1);
                     
 
-                    root.add(iv1, i, j);
+                    root.add(iv1, j, i);
 
                 }
 

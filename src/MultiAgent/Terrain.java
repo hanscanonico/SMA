@@ -16,7 +16,7 @@ import java.util.Hashtable;
  *
  * @author canonico
  */
-public class Terrain {
+public class Terrain extends Thread {
 
     private int n;
 
@@ -44,14 +44,15 @@ public class Terrain {
         setM(m);
     }
 
-    public void run() throws IOException {
-
-        for (int i = 0; i < 10; i++) {
-            System.out.println(this);
-            deplacerLesAgents();
-
-        }
-
+//    public void run() throws IOException {
+//
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println(this);
+//            deplacerLesAgents();
+//
+//        }
+    public void run() {
+         
     }
 
     @Override
@@ -81,7 +82,7 @@ public class Terrain {
                 this.map[i][n / 2] = new Zombie(new Position(i, n / 2));
             } else {
                 this.map[i][n / 2] = new Humain(new Position(i, n / 2));
-                
+
             }
         }
     }
@@ -102,6 +103,26 @@ public class Terrain {
                     temp.setPos(nouv);
                     map[nouv.x][nouv.y] = temp;
                     dejaDeplacer.put(temp.hashCode(), temp);
+                    if (temp instanceof Zombie) {
+                        if (map[(nouv.x + 1)%n][nouv.y] instanceof Humain) {
+                            map[(nouv.x + 1)%n][nouv.y] = new Zombie(new Position((nouv.x + 1)%n, nouv.y));
+                            temp = (Agent) map[(nouv.x + 1)%n][nouv.y];
+                            dejaDeplacer.put(temp.hashCode(), temp);
+                        } else if (map[(nouv.x - 1+n)%n][nouv.y] instanceof Humain) {
+                            map[(nouv.x - 1+n)%n][nouv.y] = new Zombie(new Position((nouv.x - 1+n)%n, nouv.y));
+                            temp = (Agent) map[(nouv.x - 1+n)%n][nouv.y];
+                            dejaDeplacer.put(temp.hashCode(), temp);
+                        } else if (map[nouv.x ][(nouv.y + 1)%n] instanceof Humain) {
+                            map[nouv.x ][(nouv.y+1)%n] = new Zombie(new Position(nouv.x, (nouv.y + 1)%n));
+                            temp = (Agent) map[nouv.x ][(nouv.y+ 1)%n];
+                            dejaDeplacer.put(temp.hashCode(), temp);
+                        } else if (map[nouv.x ][(nouv.y - 1+n)%n] instanceof Humain) {
+                            map[nouv.x][(nouv.y-1+n)%n] = new Zombie(new Position(nouv.x, (nouv.y - 1+n)%n));
+                            temp = (Agent) map[nouv.x ][(nouv.y-1+n)%n];
+                            dejaDeplacer.put(temp.hashCode(), temp);
+                        }
+                    }
+
                 }
             }
 
