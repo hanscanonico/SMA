@@ -59,7 +59,7 @@ public class Fenetre extends Application {
                     @Override
                     public void handle(Event event) {
                         t.deplacerLesAgents();
-                        System.out.println(t);
+                       // System.out.println(t);
                         step(gridPane);
 
                     }
