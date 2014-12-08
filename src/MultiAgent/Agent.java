@@ -11,7 +11,7 @@ import java.util.Random;
  * @author canonico
  */
 public abstract class Agent {
-
+MersenneTwisterFast mtsign = new MersenneTwisterFast();  
     Position pos;
 
     public void setPos(Position pos) {
@@ -31,14 +31,14 @@ public abstract class Agent {
         int max = 3;
         int min = 0;
 
-        int randomNum = rand.nextInt((max - min) + 1) + min;
+        int randomNum = mtsign.nextInt((max - min) + 1)+ min;//rand.nextInt((max - min) + 1) + min;
 
         int nouvI=0, nouvJ=0;
         switch (randomNum) {
             case 0:
                 nouvI = (pos.getX() - 1) % n;
                 if (nouvI < 0) {
-                    nouvI += n;
+                    nouvI =n-1;
                 }
                 nouvJ = (pos.getY());
                 break;
@@ -46,7 +46,7 @@ public abstract class Agent {
                 nouvI = (pos.getX());
                 nouvJ = (pos.getY() - 1) % m;
                 if (nouvJ < 0) {
-                    nouvJ += m;
+                    nouvJ =m-1;
                 }
                 break;
             case 2:

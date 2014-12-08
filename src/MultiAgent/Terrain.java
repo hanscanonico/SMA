@@ -27,8 +27,8 @@ public class Terrain {
     public void setM(int m) {
         this.m = m;
     }
-    private int m;
-    Object[][] map;
+    int m;
+    public Object[][] map;
 
     public int getN() {
         return n;
@@ -49,7 +49,7 @@ public class Terrain {
         for (int i = 0; i < 10; i++) {
             System.out.println(this);
             deplacerLesAgents();
-            
+
         }
 
     }
@@ -70,33 +70,41 @@ public class Terrain {
         return sb.toString();
     }
 
-    void initialiser() {
-        Humain test = new Humain(new Position(0, 0));
-        Zombie z = new Zombie(new Position(4, 4));
-        this.map[0][0] = test;
-        this.map[4][4] = z;
+    public void initialiser() {
+        //Humain test = new Humain(new Position(0, 0));
+        //Zombie z = new Zombie(new Position(3, 3));
+        //this.map[0][0] = test;
+        //this.map[3][3] = z;
+        MersenneTwisterFast ms = new MersenneTwisterFast();
+        for (int i = 0; i < 30; i++) {
+            if (ms.nextBoolean(0.2)) {
+                this.map[i][n / 2] = new Zombie(new Position(i, n / 2));
+            } else {
+                this.map[i][n / 2] = new Humain(new Position(i, n / 2));
+                
+            }
+        }
     }
 
-    private void deplacerLesAgents() {
+    public void deplacerLesAgents() {
         Agent temp;
         Position nouv;
-        HashMap<Integer,Agent>  dejaDeplacer;
+        HashMap<Integer, Agent> dejaDeplacer;
         dejaDeplacer = new HashMap<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if(map[i][j]!=null && !dejaDeplacer.containsValue((Agent)map[i][j]))
-                {
-                    temp=(Agent)map[i][j];
-                    do
-                    {
-                        nouv=temp.calculNouvellelPosition(n, m);
-                    }while(map[nouv.x][nouv.y]!=null);
-                    map[i][j]=null;
+                if (map[i][j] != null && !dejaDeplacer.containsValue((Agent) map[i][j])) {
+                    temp = (Agent) map[i][j];
+                    do {
+                        nouv = temp.calculNouvellelPosition(n, m);
+                    } while (map[nouv.x][nouv.y] != null);
+                    map[i][j] = null;
                     temp.setPos(nouv);
-                    map[nouv.x][nouv.y]=temp;   
+                    map[nouv.x][nouv.y] = temp;
                     dejaDeplacer.put(temp.hashCode(), temp);
                 }
             }
+
         }
     }
 
