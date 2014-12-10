@@ -4,13 +4,7 @@
  */
 package MultiAgent;
 
-import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.Console;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 /**
  *
@@ -72,23 +66,15 @@ public class Terrain extends Thread {
     }
 
     public void initialiser() {
-        //Humain test = new Humain(new Position(0, 0));
-        //Zombie z = new Zombie(new Position(3, 3));
-        //this.map[0][0] = test;
-        //this.map[3][3] = z;
-        int h1 = 3, h2 = 3, z1 = n - 5, z2 = m - 5;
+
         MersenneTwisterFast ms = new MersenneTwisterFast();
         for (int i = 0; i < 30; i++) {
             if (ms.nextBoolean(0.15)) {
-                this.map[z1 - i % 5][z2] = new Zombie(new Position(z1 - i % 5, z2));
-                if (i % 5 == 4) {
-                    z2--;
-                }
+                this.map[5][i] = new Zombie(new Position(5, i));
+
             } else {
-                this.map[i][i % 5 + h1 / h2] = new Humain(new Position(i % 5 + h1, h2));
-                if (i % 5 == 4) {
-                    h2++;
-                }
+                this.map[n-5][i] = new Humain(new Position(n-5,i));
+
 
             }
         }

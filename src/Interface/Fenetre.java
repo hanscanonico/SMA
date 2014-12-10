@@ -1,11 +1,7 @@
 package Interface;
 
-import MultiAgent.Agent;
 import MultiAgent.Terrain;
 import MultiAgent.Zombie;
-import com.sun.javafx.collections.ElementObservableListDecorator;
-import com.sun.javafx.collections.TrackableObservableList;
-import com.sun.javafx.collections.VetoableListDecorator;
 import java.util.Date;
 import java.util.Stack;
 import java.util.Vector;
@@ -14,31 +10,34 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Fenetre extends Application {
 
-    private final int NUM_COLS = 8;
+     
     Terrain t = new Terrain(30, 30);
 
     private final TimeCounter counter = new TimeCounter();
+
+    public Fenetre() {
+        
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -60,12 +59,12 @@ public class Fenetre extends Application {
                     public void handle(Event event) {
                         t.deplacerLesAgents();
                        // System.out.println(t);
-                        step(gridPane);
+                        refresh(gridPane);
 
                     }
 
                 }),
-                new KeyFrame(Duration.millis(100))
+                new KeyFrame(Duration.millis(50))
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         addButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -86,9 +85,12 @@ public class Fenetre extends Application {
 
         final BorderPane root = new BorderPane();
         root.setCenter(scrollPane);
-        root.setBottom(addButton);
+        final FlowPane bot = new FlowPane();
+        root.setBottom(bot);
+        bot.getChildren().add(addButton);
+        bot.setAlignment( Pos.CENTER);
 
-        Scene scene = new Scene(root, 602, 628);
+        Scene scene = new Scene(root, 592, 617);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         
@@ -104,26 +106,13 @@ public class Fenetre extends Application {
             RowConstraints row = new RowConstraints(20);
             root.getRowConstraints().add(row);
             root.getColumnConstraints().add(column1);
-
         }
-        step(root);
+        refresh(root);
+        System.out.println(t);
     }
 
-    private void step(GridPane root) {
+    private void refresh(GridPane root) {
 
-        Vector<Node> childrens2 = new Stack<>();
-        ObservableList<Node> childrens = root.getChildren();
-
-//        for (Node node : childrens) {
-//            if (node instanceof ImageView) {
-//                childrens2.add(node);
-//            }
-//        }
-//        for (Node node : childrens2) {
-//            root.getChildren().remove(node);
-//
-//        }
-        int c = 0;
         root.getChildren().clear();
         Image image1 = new Image("interface/waa.gif", 20, 20, false, false);
         Image image2 = new Image("interface/kef.png", 20, 20, false, false);
