@@ -110,6 +110,7 @@ public class Fenetre extends Application {
         refresh(root);
         System.out.println(t);
     }
+    
 
     private void refresh(GridPane root) {
 
