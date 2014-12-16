@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Canonico
  */
-public class Entite {
+public abstract class Entite {
     private Position pos;
 
     public Entite(Position pos, Terrain terrain) {
@@ -43,11 +43,44 @@ public class Entite {
  
     public Set<Position> getNewPos()
     {
-        HashSet<Position> listPos=new HashSet();
-        if(this.terrain.map[pos.x-1][pos.y]!=null )
+         
+      
+         HashSet<Position> listPos=new HashSet();
+        if(pos.x-1==-1)
         {
-            
+          // if(this.terrain.map[terrain.getNbRow()-1][pos.y]==null)
+           //{
+               listPos.add(new Position(terrain.getNbRow()-1, pos.y));
+         //  }
         }
+        else
+        {
+           // if(this.terrain.map[(pos.x+1)%terrain.getNbRow()][pos.y]!=null )
+           // {
+                listPos.add(new Position(pos.x-1, pos.y));
+           // }
+        }
+        listPos.add(new Position((pos.x+1)%terrain.getNbRow(), pos.y));
+        if(pos.y-1==-1)
+        {
+           // if(this.terrain.map[pos.x][terrain.getNbCol()-1]!=null )
+            //{
+
+                listPos.add(new Position(pos.x, terrain.getNbCol()-1));
+          //  }
+        }
+        else
+        {
+          //  if(this.terrain.map[pos.x][(pos.y-1)%terrain.getNbCol()]!=null )
+            //{
+
+                listPos.add(new Position(pos.x, pos.y-1));
+           // }
+        }
+       // if(this.terrain.map[pos.x][(pos.y+1)%terrain.getNbCol()]!=null )
+        //{
+        listPos.add(new Position(pos.x, (pos.y+1)%terrain.getNbRow()));
+        //}
         return listPos;
     }
     

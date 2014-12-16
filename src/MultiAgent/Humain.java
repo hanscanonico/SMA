@@ -4,6 +4,8 @@
  */
 package MultiAgent;
 
+import java.util.HashSet;
+
 /**
  *
  * @author canonico
@@ -25,6 +27,14 @@ public class Humain extends Agent{
         StringBuilder sb=new StringBuilder();
         sb.append(id);
         return sb.toString();
+    }
+
+    @Override
+    void seDeplacer() {
+        MersenneTwisterFast ms = new MersenneTwisterFast();
+        HashSet<Position> listpos=(HashSet<Position>) getNewPos();
+        
+        
     }
     
 }

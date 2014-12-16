@@ -66,20 +66,10 @@ MersenneTwisterFast mtsign = new MersenneTwisterFast();
 
     }
 
-    public Set<Position> getNewPos()
-    {
-        HashSet<Position> listPos=new HashSet();
-        if(this.terrain.map[pos.x-1][pos.y]!=null )
-        {
-            
-        }
-        return listPos;
-    }
-    
     
     @Override
     void seDeplacer() {
-        
+        System.out.println(getNewPos());
     }
    
 }

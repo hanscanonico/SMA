@@ -31,4 +31,14 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb =new StringBuffer();
+        sb.append("x :").append(x);
+        sb.append(" y :").append(y);
+        return sb.toString();
+    }
+    
+    
 }
