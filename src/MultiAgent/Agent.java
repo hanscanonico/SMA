@@ -4,28 +4,28 @@
  */
 package MultiAgent;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  *
  * @author canonico
  */
-public abstract class Agent {
+public abstract class Agent extends Entite{
 MersenneTwisterFast mtsign = new MersenneTwisterFast();  
-    Position pos;
+    private Position pos;
+    private Terrain terrain;
 
-    public void setPos(Position pos) {
-        this.pos = pos;
+    
+
+    public Agent(Position pos,Terrain terrain) {
+        super(pos,terrain);
     }
 
-    public Agent(Position pos) {
-        this.setPos(pos);
-    }
-
-    public Position getPos() {
-        return pos;
-    }
-
+   
     public Position calculNouvellelPosition(int n, int m) {
         Random rand = new Random();
         int max = 3;
@@ -65,4 +65,21 @@ MersenneTwisterFast mtsign = new MersenneTwisterFast();
         return p;
 
     }
+
+    public Set<Position> getNewPos()
+    {
+        HashSet<Position> listPos=new HashSet();
+        if(this.terrain.map[pos.x-1][pos.y]!=null )
+        {
+            
+        }
+        return listPos;
+    }
+    
+    
+    @Override
+    void seDeplacer() {
+        
+    }
+   
 }

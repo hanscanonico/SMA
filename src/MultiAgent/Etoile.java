@@ -8,7 +8,11 @@ package MultiAgent;
  *
  * @author canonico
  */
-public class Etoile extends Ressource{
+public class Etoile extends Ressource {
+
+    public Etoile(Position pos,Terrain terrain) {
+        super(pos,terrain);
+    }
        @Override
     public String toString() {
         StringBuilder sb=new StringBuilder();

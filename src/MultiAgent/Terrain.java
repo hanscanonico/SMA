@@ -23,7 +23,7 @@ public final class Terrain extends Thread {
         this.nbCol = nbCol;
     }
 
-    public Object[][] map;
+    public Entite[][] map;
 
     public int getNbRow() {
         return nbRow;
@@ -34,7 +34,7 @@ public final class Terrain extends Thread {
     }
 
     public Terrain(int n, int m) {
-        map = new Object[m][m];
+        map = new Entite[m][m];
         setNbRow(n);
         setNbCol(m);
     }
@@ -72,15 +72,18 @@ public final class Terrain extends Thread {
         MersenneTwisterFast ms = new MersenneTwisterFast();
         for (int i = 0; i < nbCol; i++) {
             if (ms.nextBoolean(0.15)) {
-                this.map[5][i] = new Zombie(new Position(5, i));
+                this.map[5][i] = new Zombie(new Position(5, i),this);
 
             } else {
-                this.map[nbRow - 5][i] = new Humain(new Position(nbRow - 5, i));
+                this.map[nbRow - 5][i] = new Humain(new Position(nbRow - 5, i),this);
 
             }
         }
     }
 
+    
+    
+    
     public void deplacerLesAgents() {
         Agent temp;
         Position nouv;
@@ -89,7 +92,12 @@ public final class Terrain extends Thread {
         int cpt;
         for (int i = 0; i < nbRow; i++) {
             for (int j = 0; j < nbCol; j++) {
-                if (map[i][j] != null && !dejaDeplacer.contains((Agent) map[i][j])) {
+                
+                if(map[i][j] !=null)
+                {
+                    map[i][j].seDeplacer();
+                }
+                /*if (map[i][j] != null && !dejaDeplacer.contains((Agent) map[i][j])) {
                     temp = (Agent) map[i][j];
                     cpt = 0;
                     do {
@@ -104,19 +112,19 @@ public final class Terrain extends Thread {
 
                         if (temp instanceof Zombie) {
                             if (map[(nouv.x + 1) % nbRow][nouv.y] instanceof Humain) {
-                                map[(nouv.x + 1) % nbRow][nouv.y] = new Zombie(new Position((nouv.x + 1) % nbRow, nouv.y));
+                                map[(nouv.x + 1) % nbRow][nouv.y] = new Zombie(new Position((nouv.x + 1) % nbRow, nouv.y),this);
                                 temp = (Agent) map[(nouv.x + 1) % nbRow][nouv.y];
                                 dejaDeplacer.add(temp);
                             } else if (map[(nouv.x - 1 + nbRow) % nbRow][nouv.y] instanceof Humain) {
-                                map[(nouv.x - 1 + nbRow) % nbRow][nouv.y] = new Zombie(new Position((nouv.x - 1 + nbRow) % nbRow, nouv.y));
+                                map[(nouv.x - 1 + nbRow) % nbRow][nouv.y] = new Zombie(new Position((nouv.x - 1 + nbRow) % nbRow, nouv.y),this);
                                 temp = (Agent) map[(nouv.x - 1 + nbRow) % nbRow][nouv.y];
                                 dejaDeplacer.add(temp);
                             } else if (map[nouv.x][(nouv.y + 1) % nbRow] instanceof Humain) {
-                                map[nouv.x][(nouv.y + 1) % nbRow] = new Zombie(new Position(nouv.x, (nouv.y + 1) % nbRow));
+                                map[nouv.x][(nouv.y + 1) % nbRow] = new Zombie(new Position(nouv.x, (nouv.y + 1) % nbRow),this);
                                 temp = (Agent) map[nouv.x][(nouv.y + 1) % nbRow];
                                 dejaDeplacer.add(temp);
                             } else if (map[nouv.x][(nouv.y - 1 + nbRow) % nbRow] instanceof Humain) {
-                                map[nouv.x][(nouv.y - 1 + nbRow) % nbRow] = new Zombie(new Position(nouv.x, (nouv.y - 1 + nbRow) % nbRow));
+                                map[nouv.x][(nouv.y - 1 + nbRow) % nbRow] = new Zombie(new Position(nouv.x, (nouv.y - 1 + nbRow) % nbRow),this);
                                 temp = (Agent) map[nouv.x][(nouv.y - 1 + nbRow) % nbRow];
                                 dejaDeplacer.add(temp);
                             }
@@ -124,7 +132,7 @@ public final class Terrain extends Thread {
                     }
                     dejaDeplacer.add(temp);
 
-                }
+                }*/
             }
 
         }

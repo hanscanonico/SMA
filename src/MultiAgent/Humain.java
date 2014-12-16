@@ -13,8 +13,8 @@ public class Humain extends Agent{
     static int compteur=0;
 
  
-    public Humain(Position pos) {
-        super(pos);
+    public Humain(Position pos,Terrain terrain) {
+        super(pos,terrain);
         id=compteur;
         compteur++;
     }

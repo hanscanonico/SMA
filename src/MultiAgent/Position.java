@@ -10,7 +10,6 @@ package MultiAgent;
  */
 public class Position {
     int x;
-
     int y;
     public void setX(int x) {
         this.x = x;

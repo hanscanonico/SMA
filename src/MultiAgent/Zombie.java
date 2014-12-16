@@ -10,8 +10,8 @@ package MultiAgent;
  */
 public class Zombie extends Agent {
 
-    public Zombie(Position pos) {
-        super(pos);
+    public Zombie(Position pos,Terrain terrain) {
+        super(pos,terrain);
     }
     
     

@@ -5,10 +5,12 @@
  */
 package CoucheApplicative;
 
+import java.util.Observable;
+
 /**
  *
  * @author Canonico
  */
-public class Modele {
+public class Modele extends Observable{
     
 }
