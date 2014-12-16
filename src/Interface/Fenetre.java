@@ -1,22 +1,20 @@
 package Interface;
 
+import MultiAgent.Humain;
 import MultiAgent.Terrain;
 import MultiAgent.Zombie;
 import java.util.Date;
-import java.util.Stack;
-import java.util.Vector;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,35 +28,50 @@ import javafx.util.Duration;
 
 public class Fenetre extends Application {
 
-     
-    Terrain t = new Terrain(30, 30);
+    //taille des cases
+    private int taille = 20;
+    private int nbCol = 50;
+    private int nbRow = 30;
+    private Terrain terrain = new Terrain(nbRow, nbCol);
 
-    private final TimeCounter counter = new TimeCounter();
+    private final Button playButton = new Button("Play/Pause");
+    private final Button stepButton = new Button("Step");
+    private final Label labelHumain = new Label("Humain :");
+    private final Label labelZombie = new Label("Zombie :");
+    private Label labelCountHumain = new Label();
+    private Label labelCountZombie = new Label();
+    private final GridPane gridPane = new GridPane();
+    private final BorderPane rootPane = new BorderPane();
+    private Timeline timeline;
+    private final FlowPane flowPaneBottom = new FlowPane();
+    private final Scene scene = new Scene(rootPane, nbCol * taille, nbRow * taille + 20);
+
+    private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, false);
+    private final Image imgZombie = new Image("interface/Images/zombie.png", 20, 20, false, false);
 
     public Fenetre() {
-        
+
     }
 
+//    public Fenetre(int col, int row, int nbAgent) {
+//
+//    }
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        t.initialiser();
-        final GridPane gridPane = new GridPane();
+        terrain.initialiser();
+
         gridPane.setGridLinesVisible(true);
         gridPane.setId("pane");
-        
-        final ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(gridPane);
+        gridPane.setMaxSize(nbCol * taille, nbRow * taille);
         initGrille(gridPane);
 
-        // Add 250 rows to test performance:
-        final Button addButton = new Button("Start/Stop");
-        final Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new EventHandler() {
                     @Override
                     public void handle(Event event) {
-                        t.deplacerLesAgents();
-                       // System.out.println(t);
+                        terrain.deplacerLesAgents();
+                        // System.out.println(t);
                         refresh(gridPane);
 
                     }
@@ -67,7 +80,19 @@ public class Fenetre extends Application {
                 new KeyFrame(Duration.millis(50))
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
+
+        stepButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (timeline.getStatus() == Animation.Status.RUNNING) {
+                    timeline.pause();
+                }
+                terrain.deplacerLesAgents();
+                refresh(gridPane);
+            }
+        });
+
+        playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 //gridPane.getChildren().clear();
@@ -83,75 +108,78 @@ public class Fenetre extends Application {
             }
         });
 
-        final BorderPane root = new BorderPane();
-        root.setCenter(scrollPane);
-        final FlowPane bot = new FlowPane();
-        root.setBottom(bot);
-        bot.getChildren().add(addButton);
-        bot.setAlignment( Pos.CENTER);
+        scene.getStylesheets().addAll(this.getClass().getResource("Images/style.css").toExternalForm());
 
-        Scene scene = new Scene(root, 592, 617);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        rootPane.setCenter(gridPane);
+        rootPane.setBottom(flowPaneBottom);
+
+        flowPaneBottom.getChildren().addAll(playButton, stepButton, labelHumain
+        ,labelCountHumain,labelZombie, labelCountZombie);
         
-        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        flowPaneBottom.setAlignment(Pos.CENTER);
+        flowPaneBottom.setHgap(10);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Simulation Multi Agent");
+        primaryStage.setResizable(false);
         primaryStage.show();
-        counter.reset();
-        //timeline.play();
+
     }
 
+    /**
+     * Initialise la grille en mettant en place les lignes et les colones du
+     * gridpane à la bonne taille
+     *
+     * @param root
+     */
     private void initGrille(GridPane root) {
-        for (int i = 0; i < 30; i++) {
-            ColumnConstraints column1 = new ColumnConstraints(20);
-            RowConstraints row = new RowConstraints(20);
+        for (int i = 0; i < nbCol; i++) {
+            ColumnConstraints column = new ColumnConstraints(taille);
+            root.getColumnConstraints().add(column);
+        }
+        for (int j = 0; j < nbRow; j++) {
+            RowConstraints row = new RowConstraints(taille);
             root.getRowConstraints().add(row);
-            root.getColumnConstraints().add(column1);
         }
         refresh(root);
-        System.out.println(t);
     }
-    
 
+    /**
+     * Mise a jour de la position des agents
+     *
+     * @param root
+     */
     private void refresh(GridPane root) {
 
         root.getChildren().clear();
-        Image image1 = new Image("interface/waa.gif", 20, 20, false, false);
-        Image image2 = new Image("interface/kef.png", 20, 20, false, false);
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 30; j++) {
+        int nbHumain = 0;
+        int nbZombie = 0;
 
-                if (t.map[i][j] != null) {
-                    ImageView iv1 = new ImageView();
-                    if(t.map[i][j]instanceof Zombie)
-                    {
-                    iv1.setImage(image2); 
+        for (int i = 0; i < nbRow; i++) {
+            for (int j = 0; j < nbCol; j++) {
+
+                if (terrain.map[i][j] != null) {
+                    ImageView imgView = new ImageView();
+                    if (terrain.map[i][j] instanceof Zombie) {
+                        imgView.setImage(imgZombie);
+                        nbZombie++;
+                    } else if (terrain.map[i][j] instanceof Humain) {
+                        imgView.setImage(imgHumain);
+                        nbHumain++;
                     }
-                    else iv1.setImage(image1);
-                    
 
-                    root.add(iv1, j, i);
+                    root.add(imgView, j, i);
 
                 }
 
             }
         }
+        labelCountHumain.setText(Integer.toString(nbHumain));
+        labelCountZombie.setText(Integer.toString(nbZombie));
 
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    class TimeCounter {
-
-        private long start = new Date().getTime();
-
-        void reset() {
-            start = new Date().getTime();
-        }
-
-        long elapsed() {
-            return new Date().getTime() - start;
-        }
     }
 }
