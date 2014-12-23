@@ -171,6 +171,7 @@ public class Fenetre extends Application {
                     root.add(imgView, j, i);
 
                 }
+                
 
             }
         }

@@ -25,6 +25,11 @@ public final class Terrain extends Thread {
 
     public Entite[][] map;
 
+    public Entite[][] getMap() {
+        return map;
+    }
+
+
     public int getNbRow() {
         return nbRow;
     }
@@ -81,8 +86,32 @@ public final class Terrain extends Thread {
         }
     }
 
-    
-    
+    public void remiseMouvementAZero()
+    {
+         for (int i = 0; i < nbRow; i++) {
+            for (int j = 0; j < nbCol; j++) {
+                if (map[i][j]!=null)
+                {
+                    map[i][j].setDejaPlace(false);
+                } 
+            }
+         }
+    }
+    public int compterNbHumains()
+    {
+        
+        int nbHumains=0;
+         for (int i = 0; i < nbRow; i++) {
+            for (int j = 0; j < nbCol; j++) {
+                
+                if(map[i][j] instanceof Humain)
+                {
+                    nbHumains++;                    
+                }
+            }
+         }
+         return nbHumains;
+    }
     
     public void deplacerLesAgents() {
         Agent temp;
@@ -90,49 +119,14 @@ public final class Terrain extends Thread {
         HashSet dejaDeplacer;
         dejaDeplacer = new HashSet();
         int cpt;
+        remiseMouvementAZero();
         for (int i = 0; i < nbRow; i++) {
             for (int j = 0; j < nbCol; j++) {
                 
                 if(map[i][j] !=null)
                 {
-                    map[i][j].seDeplacer();
+                    map[i][j].seDeplacer();   
                 }
-                /*if (map[i][j] != null && !dejaDeplacer.contains((Agent) map[i][j])) {
-                    temp = (Agent) map[i][j];
-                    cpt = 0;
-                    do {
-                        nouv = temp.calculNouvellelPosition(nbRow, nbCol);
-                        cpt++;
-                    } while (map[nouv.x][nouv.y] != null && cpt < 5);
-
-                    if (cpt < 5) {
-                        map[i][j] = null;
-                        temp.setPos(nouv);
-                        map[nouv.x][nouv.y] = temp;
-
-                        if (temp instanceof Zombie) {
-                            if (map[(nouv.x + 1) % nbRow][nouv.y] instanceof Humain) {
-                                map[(nouv.x + 1) % nbRow][nouv.y] = new Zombie(new Position((nouv.x + 1) % nbRow, nouv.y),this);
-                                temp = (Agent) map[(nouv.x + 1) % nbRow][nouv.y];
-                                dejaDeplacer.add(temp);
-                            } else if (map[(nouv.x - 1 + nbRow) % nbRow][nouv.y] instanceof Humain) {
-                                map[(nouv.x - 1 + nbRow) % nbRow][nouv.y] = new Zombie(new Position((nouv.x - 1 + nbRow) % nbRow, nouv.y),this);
-                                temp = (Agent) map[(nouv.x - 1 + nbRow) % nbRow][nouv.y];
-                                dejaDeplacer.add(temp);
-                            } else if (map[nouv.x][(nouv.y + 1) % nbRow] instanceof Humain) {
-                                map[nouv.x][(nouv.y + 1) % nbRow] = new Zombie(new Position(nouv.x, (nouv.y + 1) % nbRow),this);
-                                temp = (Agent) map[nouv.x][(nouv.y + 1) % nbRow];
-                                dejaDeplacer.add(temp);
-                            } else if (map[nouv.x][(nouv.y - 1 + nbRow) % nbRow] instanceof Humain) {
-                                map[nouv.x][(nouv.y - 1 + nbRow) % nbRow] = new Zombie(new Position(nouv.x, (nouv.y - 1 + nbRow) % nbRow),this);
-                                temp = (Agent) map[nouv.x][(nouv.y - 1 + nbRow) % nbRow];
-                                dejaDeplacer.add(temp);
-                            }
-                        }
-                    }
-                    dejaDeplacer.add(temp);
-
-                }*/
             }
 
         }

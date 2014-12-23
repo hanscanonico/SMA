@@ -13,8 +13,16 @@ import java.util.Set;
  * @author Canonico
  */
 public abstract class Entite {
-    private Position pos;
+    protected Position pos;
+    protected boolean dejaPlace;
 
+    public boolean isDejaPlace() {
+        return dejaPlace;
+    }
+
+    public void setDejaPlace(boolean dejaPlace) {
+        this.dejaPlace = dejaPlace;
+    }
     public Entite(Position pos, Terrain terrain) {
         this.pos = pos;
         this.terrain = terrain;
@@ -35,7 +43,7 @@ public abstract class Entite {
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
-    private Terrain terrain;
+    protected Terrain terrain;
 
     void seDeplacer() {
     

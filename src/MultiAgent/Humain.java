@@ -31,9 +31,24 @@ public class Humain extends Agent{
 
     @Override
     void seDeplacer() {
-        MersenneTwisterFast ms = new MersenneTwisterFast();
-        HashSet<Position> listpos=(HashSet<Position>) getNewPos();
-        
+     
+        if(!dejaPlace)
+        {
+            HashSet<Position> listpos=(HashSet<Position>) getNewPos();
+           // float rand=ms.nextFloat(true,true);
+
+            
+            int ind=(int) (Math.random()*listpos.size());
+                 
+            Position p=(Position) listpos.toArray()[ind];
+            if(!(terrain.getMap()[p.x][p.y] instanceof Humain) && !(terrain.getMap()[p.x][p.y] instanceof Zombie))
+            {
+                terrain.getMap()[pos.x][pos.y]=null;
+                terrain.getMap()[p.x][p.y]=this;
+                pos=p;
+            }
+            this.dejaPlace=true;
+        }
         
     }
     

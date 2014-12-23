@@ -16,13 +16,11 @@ import java.util.Set;
  */
 public abstract class Agent extends Entite{
 MersenneTwisterFast mtsign = new MersenneTwisterFast();  
-    private Position pos;
-    private Terrain terrain;
-
-    
+     
 
     public Agent(Position pos,Terrain terrain) {
         super(pos,terrain);
+        dejaPlace=false;
     }
 
    
@@ -69,7 +67,7 @@ MersenneTwisterFast mtsign = new MersenneTwisterFast();
     
     @Override
     void seDeplacer() {
-        System.out.println(getNewPos());
+        
     }
    
 }
