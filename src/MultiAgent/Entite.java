@@ -87,7 +87,7 @@ public abstract class Entite {
         }
        // if(this.terrain.map[pos.x][(pos.y+1)%terrain.getNbCol()]!=null )
         //{
-        listPos.add(new Position(pos.x, (pos.y+1)%terrain.getNbRow()));
+        listPos.add(new Position(pos.x, (pos.y+1)%terrain.getNbCol()));
         //}
         return listPos;
     }
