@@ -74,12 +74,16 @@ public final class Terrain extends Thread {
     public void initialiser() {
 
         MersenneTwisterFast ms = new MersenneTwisterFast();
+        MersenneTwisterFast ms2 = new MersenneTwisterFast();
+        int li, col;
         for (int i = 0; i < nbCol; i++) {
-            if (ms.nextBoolean(0.15)) {
-                this.map[5][i] = new Zombie(new Position(5, i),this);
+            li = ms2.nextInt(getNbRow());
+            col = ms2.nextInt(getNbCol());
+            if (ms.nextBoolean(0.10)) {
+                this.map[li][col] = new Zombie(new Position(li, col), this);
 
             } else {
-                this.map[nbRow - 5][i] = new Humain(new Position(nbRow - 5, i),this);
+                this.map[li][col] = new Humain(new Position(li, col), this);
 
             }
         }
@@ -118,7 +122,7 @@ public final class Terrain extends Thread {
             for (int j = 0; j < nbCol; j++) {
 
                 if (map[i][j] != null && map[i][j] instanceof Agent) {
-                    ((Agent)(map[i][j])).seDeplacer();
+                    ((Agent) (map[i][j])).seDeplacer();
                 }
             }
 

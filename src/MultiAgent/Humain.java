@@ -33,11 +33,11 @@ public class Humain extends Agent {
     @Override
     public void seDeplacer() {
         HashSet<Position> adversaires;
-        HashSet<Position> listpos;
+        HashSet<Position> listpos = new HashSet<>();
         if (!dejaPlace) {
             adversaires = reperage(3, Zombie.class);
             if (adversaires.isEmpty()) {
-                listpos = (HashSet<Position>) getNewPos();
+                //listpos = (HashSet<Position>) getNewPos();
             } else {
                 listpos = fuire(adversaires);
             }
