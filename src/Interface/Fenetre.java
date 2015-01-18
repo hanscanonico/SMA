@@ -3,7 +3,6 @@ package Interface;
 import MultiAgent.Humain;
 import MultiAgent.Terrain;
 import MultiAgent.Zombie;
-import java.util.Date;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -29,17 +27,17 @@ import javafx.util.Duration;
 public class Fenetre extends Application {
 
     //taille des cases
-    private int taille = 20;
-    private int nbCol = 50;
-    private int nbRow = 30;
-    private Terrain terrain = new Terrain(nbRow, nbCol);
+    private final int taille = 20;
+    private final int nbCol = 50;
+    private final int nbRow = 30;
+    private final Terrain terrain = new Terrain(nbRow, nbCol);
 
     private final Button playButton = new Button("Play/Pause");
     private final Button stepButton = new Button("Step");
     private final Label labelHumain = new Label("Humain :");
     private final Label labelZombie = new Label("Zombie :");
-    private Label labelCountHumain = new Label();
-    private Label labelCountZombie = new Label();
+    private final Label labelCountHumain = new Label();
+    private final Label labelCountZombie = new Label();
     private final GridPane gridPane = new GridPane();
     private final BorderPane rootPane = new BorderPane();
     private Timeline timeline;
@@ -113,9 +111,8 @@ public class Fenetre extends Application {
         rootPane.setCenter(gridPane);
         rootPane.setBottom(flowPaneBottom);
 
-        flowPaneBottom.getChildren().addAll(playButton, stepButton, labelHumain
-        ,labelCountHumain,labelZombie, labelCountZombie);
-        
+        flowPaneBottom.getChildren().addAll(playButton, stepButton, labelHumain, labelCountHumain, labelZombie, labelCountZombie);
+
         flowPaneBottom.setAlignment(Pos.CENTER);
         flowPaneBottom.setHgap(10);
 
@@ -171,7 +168,6 @@ public class Fenetre extends Application {
                     root.add(imgView, j, i);
 
                 }
-                
 
             }
         }

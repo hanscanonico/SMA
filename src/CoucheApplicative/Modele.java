@@ -11,6 +11,6 @@ import java.util.Observable;
  *
  * @author Canonico
  */
-public class Modele extends Observable{
-    
+public class Modele extends Observable {
+
 }

@@ -10,14 +10,15 @@ package MultiAgent;
  */
 public class Etoile extends Ressource {
 
-    public Etoile(Position pos,Terrain terrain) {
-        super(pos,terrain);
+    public Etoile(Position pos, Terrain terrain) {
+        super(pos, terrain);
     }
-       @Override
+
+    @Override
     public String toString() {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("E");
         return sb.toString();
     }
-    
+
 }

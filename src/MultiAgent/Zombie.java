@@ -12,49 +12,39 @@ import java.util.HashSet;
  */
 public class Zombie extends Agent {
 
-    public Zombie(Position pos,Terrain terrain) {
-        super(pos,terrain);
+    public Zombie(Position pos, Terrain terrain) {
+        super(pos, terrain);
     }
-    
-    
+
     @Override
     public String toString() {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("Z");
         return sb.toString();
     }
 
     @Override
-    void seDeplacer() {
-        if(!dejaPlace)
-        {
-            HashSet<Position> listpos=(HashSet<Position>) getNewPos();
-           // float rand=ms.nextFloat(true,true);
+    public void seDeplacer() {
+        if (!dejaPlace) {
+            HashSet<Position> listpos = (HashSet<Position>) getNewPos();
+            // float rand=ms.nextFloat(true,true);
 
-            
-            int ind=(int) (Math.random()*listpos.size());
-                 
-            Position p=(Position) listpos.toArray()[ind];
-            if(!(terrain.getMap()[p.x][p.y] instanceof Zombie))
-            {
-                
-                if((terrain.getMap()[p.x][p.y] instanceof Humain))
-                {
-                    terrain.getMap()[p.x][p.y]=new Zombie(p, terrain);
+            int ind = (int) (Math.random() * listpos.size());
+
+            Position p = (Position) listpos.toArray()[ind];
+            if (!(terrain.getMap()[p.ligne][p.colonne] instanceof Zombie)) {
+
+                if ((terrain.getMap()[p.ligne][p.colonne] instanceof Humain)) {
+                    terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
+                } else {
+                    terrain.getMap()[pos.ligne][pos.colonne] = null;
+                    terrain.getMap()[p.ligne][p.colonne] = this;
+                    pos = p;
                 }
-                else
-                {
-                    terrain.getMap()[pos.x][pos.y]=null;
-                    terrain.getMap()[p.x][p.y]=this;
-                    pos=p;
-                }
-               
-               
+
             }
-            this.dejaPlace=true;
-        } 
+            this.dejaPlace = true;
+        }
     }
-    
-    
-    
+
 }

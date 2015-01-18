@@ -9,36 +9,37 @@ package MultiAgent;
  * @author canonico
  */
 public class Position {
-    int x;
-    int y;
-    public void setX(int x) {
-        this.x = x;
+
+    int ligne;
+    int colonne;
+
+    public void setLigne(int ligne) {
+        this.ligne = ligne;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setColonne(int colonne) {
+        this.colonne = colonne;
     }
 
-    public int getX() {
-        return x;
+    public int getLigne() {
+        return ligne;
     }
 
-    public int getY() {
-        return y;
+    public int getColonne() {
+        return colonne;
     }
 
     public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.ligne = x;
+        this.colonne = y;
     }
 
     @Override
     public String toString() {
-        StringBuffer sb =new StringBuffer();
-        sb.append("x :").append(x);
-        sb.append(" y :").append(y);
+        StringBuffer sb = new StringBuffer();
+        sb.append("x :").append(ligne);
+        sb.append(" y :").append(colonne);
         return sb.toString();
     }
-    
-    
+
 }

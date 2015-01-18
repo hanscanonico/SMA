@@ -29,7 +29,6 @@ public final class Terrain extends Thread {
         return map;
     }
 
-
     public int getNbRow() {
         return nbRow;
     }
@@ -84,48 +83,42 @@ public final class Terrain extends Thread {
 
             }
         }
+//        this.map[nbRow / 2][nbCol / 2] = new Humain(new Position(nbRow / 2, nbCol / 2), this);
+//        this.map[nbRow / 2][nbCol / 2+1] = new Zombie(new Position(nbRow / 2, nbCol / 2+1), this);
     }
 
-    public void remiseMouvementAZero()
-    {
-         for (int i = 0; i < nbRow; i++) {
+    public void remiseMouvementAZero() {
+        for (int i = 0; i < nbRow; i++) {
             for (int j = 0; j < nbCol; j++) {
-                if (map[i][j]!=null)
-                {
+                if (map[i][j] != null) {
                     map[i][j].setDejaPlace(false);
-                } 
-            }
-         }
-    }
-    public int compterNbHumains()
-    {
-        
-        int nbHumains=0;
-         for (int i = 0; i < nbRow; i++) {
-            for (int j = 0; j < nbCol; j++) {
-                
-                if(map[i][j] instanceof Humain)
-                {
-                    nbHumains++;                    
                 }
             }
-         }
-         return nbHumains;
+        }
     }
-    
+
+    public int compterNbHumains() {
+
+        int nbHumains = 0;
+        for (int i = 0; i < nbRow; i++) {
+            for (int j = 0; j < nbCol; j++) {
+
+                if (map[i][j] instanceof Humain) {
+                    nbHumains++;
+                }
+            }
+        }
+        return nbHumains;
+    }
+
     public void deplacerLesAgents() {
-        Agent temp;
-        Position nouv;
-        HashSet dejaDeplacer;
-        dejaDeplacer = new HashSet();
-        int cpt;
+
         remiseMouvementAZero();
         for (int i = 0; i < nbRow; i++) {
             for (int j = 0; j < nbCol; j++) {
-                
-                if(map[i][j] !=null)
-                {
-                    map[i][j].seDeplacer();   
+
+                if (map[i][j] != null && map[i][j] instanceof Agent) {
+                    ((Agent)(map[i][j])).seDeplacer();
                 }
             }
 

@@ -10,5 +10,5 @@ package Interface;
  * @author Canonico
  */
 public class Controleur {
-    
+
 }
