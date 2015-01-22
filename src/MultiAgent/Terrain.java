@@ -4,8 +4,6 @@
  */
 package MultiAgent;
 
-import java.util.HashSet;
-
 /**
  *
  * @author canonico

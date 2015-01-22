@@ -4,9 +4,7 @@
  */
 package MultiAgent;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -98,15 +96,10 @@ public abstract class Agent extends Entite {
         int y = this.pos.colonne;
         for (int i = distance * -1; i <= distance; i++) {
             for (int j = distance * -1 + Math.abs(i); j <= distance - Math.abs(i); j++) {
-                try {
-//                    if (ligne + i == 15 && colonne + j == 26) {
-//                        System.out.println((this.terrain.map[ligne + i][colonne + j]).getClass());
-//                    }
-                    if ((this.terrain.map[x + i][y + j]).getClass() == (Zombie.class)) {
+                if (x + i < terrain.getNbRow() && x + i >= 0 && y + j < terrain.getNbCol() && y + j >= 0) {
+                    if ((this.terrain.map[x + i][y + j])!=null && (this.terrain.map[x + i][y + j]).getClass() == (Zombie.class)) {
                         positions.add((this.terrain.map[x + i][y + j]).getPos());
                     }
-                } catch (Exception e) {
-
                 }
 
             }
@@ -119,24 +112,43 @@ public abstract class Agent extends Entite {
     }
 
     public enum Cardinalite {
+
         NORD,
         SUD,
         EST,
-        OUEST;
+        OUEST,
+        NORD_EST,
+        NORD_OUEST,
+        SUD_EST,
+        SUD_OUEST;
+
     }
 
     Cardinalite direction(Position enemi) {
         if (enemi.colonne < pos.colonne) {
-            return Cardinalite.OUEST;
+            if (enemi.ligne < pos.ligne) {
+                return Cardinalite.NORD_OUEST;
+            } else if (enemi.ligne > pos.ligne) {
+                return Cardinalite.SUD_OUEST;
+            } else {
+                return Cardinalite.OUEST;
+            }
         }
+
         if (enemi.colonne > pos.colonne) {
-            return Cardinalite.EST;
+            if (enemi.ligne < pos.ligne) {
+                return Cardinalite.NORD_EST;
+            } else if (enemi.ligne > pos.ligne) {
+                return Cardinalite.SUD_EST;
+            } else {
+                return Cardinalite.EST;
+            }
         }
-        if (enemi.ligne < pos.ligne) {
-            return Cardinalite.NORD;
-        } else {
+        if (enemi.colonne == pos.colonne && enemi.ligne > pos.ligne) {
             return Cardinalite.SUD;
         }
+        return Cardinalite.NORD;
+
     }
 
 }
