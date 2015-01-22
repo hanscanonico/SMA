@@ -36,7 +36,7 @@ public final class Terrain extends Thread {
     }
 
     public Terrain(int n, int m) {
-        map = new Entite[m][m];
+        map = new Entite[n][m];
         setNbRow(n);
         setNbCol(m);
     }
@@ -125,6 +125,11 @@ public final class Terrain extends Thread {
             }
 
         }
+    }
+
+    public void reset() {
+       map = new Entite[nbRow][nbCol];
+       initialiser();
     }
 
 }

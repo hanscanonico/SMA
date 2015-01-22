@@ -31,7 +31,7 @@ public class Fenetre extends Application {
     private final int nbCol = 50;
     private final int nbRow = 30;
     private final Terrain terrain = new Terrain(nbRow, nbCol);
-
+    private final Button resetButton = new Button("Reset");
     private final Button playButton = new Button("Play/Pause");
     private final Button stepButton = new Button("Step");
     private final Label labelHumain = new Label("Humain :");
@@ -90,6 +90,17 @@ public class Fenetre extends Application {
             }
         });
 
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (timeline.getStatus() == Animation.Status.RUNNING) {
+                    timeline.pause();
+                }
+                terrain.reset();
+                refresh(gridPane);
+            }
+        });
+
         playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -111,7 +122,7 @@ public class Fenetre extends Application {
         rootPane.setCenter(gridPane);
         rootPane.setBottom(flowPaneBottom);
 
-        flowPaneBottom.getChildren().addAll(playButton, stepButton, labelHumain, labelCountHumain, labelZombie, labelCountZombie);
+        flowPaneBottom.getChildren().addAll(playButton, stepButton,resetButton, labelHumain, labelCountHumain, labelZombie, labelCountZombie);
 
         flowPaneBottom.setAlignment(Pos.CENTER);
         flowPaneBottom.setHgap(10);
