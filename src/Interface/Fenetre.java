@@ -4,10 +4,13 @@ import MultiAgent.Etoile;
 import MultiAgent.Humain;
 import MultiAgent.Terrain;
 import MultiAgent.Zombie;
+import MultiAgent.SuperHumain;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -15,6 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -37,17 +41,22 @@ public class Fenetre extends Application {
     private final Button stepButton = new Button("Step");
     private final Label labelHumain = new Label("Humain :");
     private final Label labelZombie = new Label("Zombie :");
+    private final Label labelVitesse = new Label("Vitesse :");
     private final Label labelCountHumain = new Label();
     private final Label labelCountZombie = new Label();
     private final GridPane gridPane = new GridPane();
     private final BorderPane rootPane = new BorderPane();
+    private final Slider slider = new Slider(1, 100, 50);
     private Timeline timeline;
     private final FlowPane flowPaneBottom = new FlowPane();
-    private final Scene scene = new Scene(rootPane, nbCol * taille, nbRow * taille + 20);
+    private final Scene scene = new Scene(rootPane, nbCol * taille, nbRow * taille + 25);
 
-    private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, false);
+//    private final Image imgHumain = new Image("interface/Images/humain.png", 140, 140, false, true);
+    private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, true);
     private final Image imgZombie = new Image("interface/Images/zombie.png", 20, 20, false, false);
     private final Image imgEtoile = new Image("interface/Images/Etoile.png", 20, 20, false, false);
+    private final Image imgSuperHumain = new Image("interface/Images/superhumain.png", 20, 20, false, true);
+
     public Fenetre() {
 
     }
@@ -63,21 +72,21 @@ public class Fenetre extends Application {
         gridPane.setGridLinesVisible(true);
         gridPane.setId("pane");
         gridPane.setMaxSize(nbCol * taille, nbRow * taille);
+
         initGrille(gridPane);
+        KeyFrame key2 = new KeyFrame(Duration.millis(50), new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                terrain.deplacerLesAgents();
+                // System.out.println(t);
+                refresh(gridPane);
 
-        timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        terrain.deplacerLesAgents();
-                        // System.out.println(t);
-                        refresh(gridPane);
+            }
 
-                    }
+        });
 
-                }),
-                new KeyFrame(Duration.millis(50))
-        );
+        timeline = new Timeline(key2);
+
         timeline.setCycleCount(Timeline.INDEFINITE);
 
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -118,12 +127,41 @@ public class Fenetre extends Application {
             }
         });
 
+       
+        slider.setShowTickLabels(true);
+        slider.setMin(1);
+        slider.setMax(99);
+
+        slider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                    Number old_val, Number new_val) {
+
+                double temp = 100 - (double) new_val;
+                KeyFrame key2 = new KeyFrame(Duration.millis(temp), new EventHandler() {
+                    @Override
+                    public void handle(Event event) {
+                        terrain.deplacerLesAgents();
+                        // System.out.println(t);
+                        refresh(gridPane);
+
+                    }
+
+                });
+
+                timeline.stop();
+                timeline = null;
+                timeline = new Timeline(key2);
+                timeline.setCycleCount(Timeline.INDEFINITE);
+                timeline.play();
+            }
+        });
+
         scene.getStylesheets().addAll(this.getClass().getResource("Images/style.css").toExternalForm());
 
         rootPane.setCenter(gridPane);
         rootPane.setBottom(flowPaneBottom);
 
-        flowPaneBottom.getChildren().addAll(playButton, stepButton,resetButton, labelHumain, labelCountHumain, labelZombie, labelCountZombie);
+        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton, labelHumain, labelCountHumain, labelZombie, labelCountZombie, labelVitesse, slider);
 
         flowPaneBottom.setAlignment(Pos.CENTER);
         flowPaneBottom.setHgap(10);
@@ -172,13 +210,18 @@ public class Fenetre extends Application {
                     if (terrain.map[i][j] instanceof Zombie) {
                         imgView.setImage(imgZombie);
                         nbZombie++;
+                    } else if (terrain.map[i][j] instanceof SuperHumain) {
+                        imgView.setImage(imgSuperHumain);
+//                        imgView.setTranslateX(-60);
+//                        imgView.setTranslateY(-60);
+                        nbHumain++;
                     } else if (terrain.map[i][j] instanceof Humain) {
                         imgView.setImage(imgHumain);
                         nbHumain++;
-                    }
-                    else if (terrain.map[i][j] instanceof Etoile) {
+                    } else if (terrain.map[i][j] instanceof Etoile) {
                         imgView.setImage(imgEtoile);
                     }
+
                     root.add(imgView, j, i);
 
                 }

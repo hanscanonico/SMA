@@ -33,7 +33,7 @@ public class Humain extends Agent {
     @Override
     public void seDeplacer() {
         HashSet<Position> adversaires;
-        HashSet<Position> listpos ;
+        HashSet<Position> listpos;
         if (!dejaPlace) {
             adversaires = reperage(3, Zombie.class);
             if (adversaires.isEmpty()) {
@@ -48,7 +48,14 @@ public class Humain extends Agent {
                 int ind = (int) (Math.random() * listpos.size());
 
                 Position p = (Position) listpos.toArray()[ind];
-                if (!(terrain.getMap()[p.ligne][p.colonne] instanceof Agent)) {
+                if ((terrain.getMap()[p.ligne][p.colonne] instanceof Etoile)) {
+
+                        terrain.getMap()[pos.ligne][pos.colonne] = null;
+                        terrain.getMap()[p.ligne][p.colonne] = new SuperHumain(p, terrain);
+                        pos = p;
+
+
+                } else if (!(terrain.getMap()[p.ligne][p.colonne] instanceof Agent)) {
                     terrain.getMap()[pos.ligne][pos.colonne] = null;
                     terrain.getMap()[p.ligne][p.colonne] = this;
                     pos = p;
@@ -114,7 +121,7 @@ public class Humain extends Agent {
                 if (pos.colonne + 1 < getTerrain().getNbRow()) {
                     p.add(new Position(pos.ligne, pos.colonne + 1));
                 }
-               if (pos.colonne > 0) {
+                if (pos.colonne > 0) {
                     p.add(new Position(pos.ligne, pos.colonne - 1));
                 }
                 break;

@@ -83,10 +83,10 @@ public final class Terrain extends Thread {
         MersenneTwisterFast ms = new MersenneTwisterFast();
         MersenneTwisterFast ms2 = new MersenneTwisterFast();
         int li, col;
-        for (int i = 0; i < nbCol; i++) {
+        for (int i = 0; i < 20; i++) {
             li = ms2.nextInt(getNbRow());
             col = ms2.nextInt(getNbCol());
-            if (ms.nextBoolean(0.10)) {
+            if (ms.nextBoolean(0.50)) {
                 this.map[li][col] = new Zombie(new Position(li, col), this);
 
             } else {
@@ -136,7 +136,7 @@ public final class Terrain extends Thread {
         }
         boolean place=false;
         nbTour++;
-        if(nbTour%30==0)
+        if(nbTour%50==0)
         {
             do{
                  MersenneTwisterFast ms = new MersenneTwisterFast();
