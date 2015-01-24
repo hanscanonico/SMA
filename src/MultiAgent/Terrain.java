@@ -12,7 +12,15 @@ public final class Terrain extends Thread {
 
     private int nbRow;
     private int nbCol;
+    private int nbTour;
 
+    public int getNbTour() {
+        return nbTour;
+    }
+
+    public void setNbTour(int nbTour) {
+        this.nbTour = nbTour;
+    }
     public void setNbRow(int nbRow) {
         this.nbRow = nbRow;
     }
@@ -71,6 +79,7 @@ public final class Terrain extends Thread {
 
     public void initialiser() {
 
+        nbTour=0;
         MersenneTwisterFast ms = new MersenneTwisterFast();
         MersenneTwisterFast ms2 = new MersenneTwisterFast();
         int li, col;
@@ -124,6 +133,24 @@ public final class Terrain extends Thread {
                 }
             }
 
+        }
+        boolean place=false;
+        nbTour++;
+        if(nbTour%30==0)
+        {
+            do{
+                 MersenneTwisterFast ms = new MersenneTwisterFast();
+                 int li, col;
+                 li = ms.nextInt(getNbRow());
+                 col = ms.nextInt(getNbCol());
+                 if(this.map[li][col]==null)
+                 {
+                    this.map[li][col]=new Etoile(new Position(li, col), this);
+                    place=true;
+                 }
+
+                 
+            }while (!place);
         }
     }
 

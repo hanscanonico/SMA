@@ -1,5 +1,6 @@
 package Interface;
 
+import MultiAgent.Etoile;
 import MultiAgent.Humain;
 import MultiAgent.Terrain;
 import MultiAgent.Zombie;
@@ -46,7 +47,7 @@ public class Fenetre extends Application {
 
     private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, false);
     private final Image imgZombie = new Image("interface/Images/zombie.png", 20, 20, false, false);
-
+    private final Image imgEtoile = new Image("interface/Images/Etoile.png", 20, 20, false, false);
     public Fenetre() {
 
     }
@@ -175,7 +176,9 @@ public class Fenetre extends Application {
                         imgView.setImage(imgHumain);
                         nbHumain++;
                     }
-
+                    else if (terrain.map[i][j] instanceof Etoile) {
+                        imgView.setImage(imgEtoile);
+                    }
                     root.add(imgView, j, i);
 
                 }
