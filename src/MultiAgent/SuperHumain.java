@@ -11,8 +11,23 @@ package MultiAgent;
  */
 public class SuperHumain extends Humain{
 
+    
+    private int nbToursRestants;
     public SuperHumain(Position pos, Terrain terrain) {
         super(pos, terrain);
+        nbToursRestants=50;
+    }
+
+    @Override
+    public void seDeplacer() {
+        super.seDeplacer();
+        nbToursRestants--;
+        if(nbToursRestants==0)
+        {
+              terrain.getMap()[pos.ligne][pos.colonne] = new Humain(pos, terrain);
+        }
     }
  
+    
+    
 }
