@@ -25,23 +25,38 @@ public class Zombie extends Agent {
 
     @Override
     public void seDeplacer() {
+        HashSet<Position> adversaires;
+        HashSet<Position> listpos = null;
         if (!dejaPlace) {
-            HashSet<Position> listpos = (HashSet<Position>) getNewPos();
+            adversaires = reperage(2, Humain.class);
+            if (adversaires.isEmpty()) {
+                listpos = (HashSet<Position>) getNewPos();
+            } else {
+                listpos = poursuivre(adversaires);
+            }
             // float rand=ms.nextFloat(true,true);
 
-            int ind = (int) (Math.random() * listpos.size());
+            if (listpos != null && !listpos.isEmpty()) {
 
-            Position p = (Position) listpos.toArray()[ind];
-            if (!(terrain.getMap()[p.ligne][p.colonne] instanceof Zombie)) {
+                int ind = (int) (Math.random() * listpos.size());
+                Position p = (Position) listpos.toArray()[ind];
+                if (!(terrain.getMap()[p.ligne][p.colonne] instanceof Zombie)
+                        && !(terrain.getMap()[p.ligne][p.colonne] instanceof Etoile)) {
 
-                if ((terrain.getMap()[p.ligne][p.colonne] instanceof Humain)) {
-                    terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
-                } else {
-                    terrain.getMap()[pos.ligne][pos.colonne] = null;
-                    terrain.getMap()[p.ligne][p.colonne] = this;
-                    pos = p;
+                    if ((terrain.getMap()[p.ligne][p.colonne] instanceof SuperHumain)) {
+                        terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
+//                        terrain.getMap()[pos.ligne][pos.colonne] = null;
+//                        terrain.getMap()[p.ligne][p.colonne] = null;
+//                        terrain.getMap()[p.ligne][p.colonne] = new Humain(p, terrain);
+                    } else if ((terrain.getMap()[p.ligne][p.colonne] instanceof Humain)) {
+                        terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
+                    } else {
+                        terrain.getMap()[pos.ligne][pos.colonne] = null;
+                        terrain.getMap()[p.ligne][p.colonne] = this;
+                        pos = p;
+                    }
+
                 }
-
             }
             this.dejaPlace = true;
         }

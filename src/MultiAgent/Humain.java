@@ -33,27 +33,32 @@ public class Humain extends Agent {
     @Override
     public void seDeplacer() {
         HashSet<Position> adversaires;
-        HashSet<Position> listpos;
+        HashSet<Position> listpos = null;
+        HashSet<Position> posEtoile = null;
         if (!dejaPlace) {
             adversaires = reperage(3, Zombie.class);
+            posEtoile = reperage(terrain.getNbCol()*2, Etoile.class);
             if (adversaires.isEmpty()) {
-                listpos = (HashSet<Position>) getNewPos();
+//                listpos = (HashSet<Position>) getNewPos();
+                if (!posEtoile.isEmpty()) {
+                    listpos = poursuivre(posEtoile);
+                }
             } else {
                 listpos = fuire(adversaires);
             }
             // float rand=ms.nextFloat(true,true);
 
-            if (!listpos.isEmpty()) {
+            if (listpos != null && !listpos.isEmpty()) {
 
                 int ind = (int) (Math.random() * listpos.size());
 
                 Position p = (Position) listpos.toArray()[ind];
                 if ((terrain.getMap()[p.ligne][p.colonne] instanceof Etoile)) {
 
-                        terrain.getMap()[pos.ligne][pos.colonne] = null;
-                        terrain.getMap()[p.ligne][p.colonne] = new SuperHumain(p, terrain);
-                        pos = p;
-
+                    terrain.getMap()[pos.ligne][pos.colonne] = null;
+                    terrain.getMap()[p.ligne][p.colonne] = new SuperHumain(p, terrain);
+                    pos = p;
+                    Terrain.etoile--;
 
                 } else if (!(terrain.getMap()[p.ligne][p.colonne] instanceof Agent)) {
                     terrain.getMap()[pos.ligne][pos.colonne] = null;
@@ -66,100 +71,6 @@ public class Humain extends Agent {
             this.dejaPlace = true;
         }
 
-    }
-
-    private HashSet<Position> fuire(HashSet<Position> adversaires) {
-        HashSet<Position> p = new HashSet<>();
-        Position plusProche = (Position) (adversaires.toArray())[0];
-        int distance = distance(this.pos, plusProche);
-        int aux;
-        for (Position next : adversaires) {
-            aux = distance(this.pos, next);
-            if (aux < distance) {
-                distance = aux;
-                plusProche = next;
-            }
-        }
-        switch (direction(plusProche)) {
-            case EST:
-                if (pos.colonne > 0) {
-                    p.add(new Position(pos.ligne, pos.colonne - 1));
-                }
-                if (pos.ligne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne + 1, pos.colonne));
-                }
-                if (pos.ligne > 0) {
-                    p.add(new Position(pos.ligne - 1, pos.colonne));
-                }
-                break;
-            case NORD:
-                if (pos.ligne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne + 1, pos.colonne));
-                }
-                if (pos.colonne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne, pos.colonne + 1));
-                }
-                if (pos.colonne > 0) {
-                    p.add(new Position(pos.ligne, pos.colonne - 1));
-                }
-                break;
-            case OUEST:
-                if (pos.colonne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne, pos.colonne + 1));
-                }
-                if (pos.ligne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne + 1, pos.colonne));
-                }
-                if (pos.ligne > 0) {
-                    p.add(new Position(pos.ligne - 1, pos.colonne));
-                }
-                break;
-            case SUD:
-                if (pos.ligne > 0) {
-                    p.add(new Position(pos.ligne - 1, pos.colonne));
-                }
-                if (pos.colonne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne, pos.colonne + 1));
-                }
-                if (pos.colonne > 0) {
-                    p.add(new Position(pos.ligne, pos.colonne - 1));
-                }
-                break;
-            case SUD_EST:
-                if (pos.ligne > 0) {
-                    p.add(new Position(pos.ligne - 1, pos.colonne));
-                }
-                if (pos.colonne > 0) {
-                    p.add(new Position(pos.ligne, pos.colonne - 1));
-                }
-                break;
-            case SUD_OUEST:
-                if (pos.ligne > 0) {
-                    p.add(new Position(pos.ligne - 1, pos.colonne));
-                }
-                if (pos.colonne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne, pos.colonne + 1));
-                }
-                break;
-            case NORD_EST:
-                if (pos.ligne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne + 1, pos.colonne));
-                }
-                if (pos.colonne > 0) {
-                    p.add(new Position(pos.ligne, pos.colonne - 1));
-                }
-                break;
-            case NORD_OUEST:
-                if (pos.colonne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne, pos.colonne + 1));
-                }
-                if (pos.ligne + 1 < getTerrain().getNbRow()) {
-                    p.add(new Position(pos.ligne + 1, pos.colonne));
-                }
-                break;
-        }
-
-        return p;
     }
 
 }
