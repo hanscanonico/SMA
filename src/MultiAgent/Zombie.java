@@ -12,6 +12,8 @@ import java.util.HashSet;
  */
 public class Zombie extends Agent {
 
+    static private MersenneTwisterFast ms = new MersenneTwisterFast();
+
     public Zombie(Position pos, Terrain terrain) {
         super(pos, terrain);
     }
@@ -44,10 +46,14 @@ public class Zombie extends Agent {
                         && !(terrain.getMap()[p.ligne][p.colonne] instanceof Etoile)) {
 
                     if ((terrain.getMap()[p.ligne][p.colonne] instanceof SuperHumain)) {
-                        terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
-//                        terrain.getMap()[pos.ligne][pos.colonne] = null;
-//                        terrain.getMap()[p.ligne][p.colonne] = null;
-//                        terrain.getMap()[p.ligne][p.colonne] = new Humain(p, terrain);
+                        if (ms.nextBoolean(0.4)) {
+                            terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
+                        } else {
+                            terrain.getMap()[pos.ligne][pos.colonne] = null;
+                            terrain.getMap()[p.ligne][p.colonne] = null;
+                            terrain.getMap()[p.ligne][p.colonne] = new Humain(p, terrain);
+                        }
+
                     } else if ((terrain.getMap()[p.ligne][p.colonne] instanceof Humain)) {
                         terrain.getMap()[p.ligne][p.colonne] = new Zombie(p, terrain);
                     } else {

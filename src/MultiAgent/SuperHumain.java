@@ -22,7 +22,7 @@ public class SuperHumain extends Humain {
         HashSet<Position> adversaires;
         HashSet<Position> listpos;
         if (!dejaPlace) {
-            adversaires = reperage(3, Zombie.class);
+            adversaires = reperage(4, Zombie.class);
             if (adversaires.isEmpty()) {
                 listpos = (HashSet<Position>) getNewPos();
             } else {
