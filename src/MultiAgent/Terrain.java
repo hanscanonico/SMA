@@ -15,6 +15,7 @@ public final class Terrain extends Thread {
     private int nbTour;
     public static int etoile=0;
 
+    private static Terrain terrain;
     public int getNbTour() {
         return nbTour;
     }
@@ -44,7 +45,15 @@ public final class Terrain extends Thread {
         return nbCol;
     }
 
-    public Terrain(int n, int m) {
+    public static Terrain getInstance(int n,int m)
+    {
+        if(terrain==null)
+        {
+            terrain=new Terrain(n, m);
+        }
+        return terrain;
+    }
+    private Terrain(int n, int m) {
         map = new Entite[n][m];
         setNbRow(n);
         setNbCol(m);
