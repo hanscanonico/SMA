@@ -14,10 +14,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,13 +38,14 @@ public class Fenetre extends Application {
     private final int taille = 20;
     private final int nbCol = 50;
     private final int nbRow = 30;
-    private final Terrain terrain = new Terrain(nbRow, nbCol);
+    private final Terrain terrain = Terrain.getInstance(nbRow, nbCol);
     private final Button resetButton = new Button("Reset");
     private final Button playButton = new Button("Play/Pause");
     private final Button stepButton = new Button("Step");
     private final Label labelHumain = new Label("Humain :");
     private final Label labelZombie = new Label("Zombie :");
     private final Label labelVitesse = new Label("Vitesse :");
+    private final Label labelVision = new Label("Champ de vision :");
     private final Label labelCountHumain = new Label();
     private final Label labelCountZombie = new Label();
     private final GridPane gridPane = new GridPane();
@@ -50,6 +54,10 @@ public class Fenetre extends Application {
     private Timeline timeline;
     private final FlowPane flowPaneBottom = new FlowPane();
     private final Scene scene = new Scene(rootPane, nbCol * taille, nbRow * taille + 25);
+    private final CheckBox checkVision = new CheckBox();
+    private final Separator separator1 = new Separator();
+    private final Separator separator2 = new Separator();
+    private final Separator separator3 = new Separator();
 
 //    private final Image imgHumain = new Image("interface/Images/humain.png", 140, 140, false, true);
     private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, true);
@@ -127,7 +135,6 @@ public class Fenetre extends Application {
             }
         });
 
-       
         slider.setShowTickLabels(true);
         slider.setMin(1);
         slider.setMax(99);
@@ -161,7 +168,10 @@ public class Fenetre extends Application {
         rootPane.setCenter(gridPane);
         rootPane.setBottom(flowPaneBottom);
 
-        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton, labelHumain, labelCountHumain, labelZombie, labelCountZombie, labelVitesse, slider);
+        separator1.setOrientation(Orientation.VERTICAL);
+        separator2.setOrientation(Orientation.VERTICAL);
+        separator3.setOrientation(Orientation.VERTICAL);
+        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton,separator1, labelHumain, labelCountHumain, labelZombie, labelCountZombie,separator2, labelVitesse, slider, separator3, labelVision, checkVision);
 
         flowPaneBottom.setAlignment(Pos.CENTER);
         flowPaneBottom.setHgap(10);

@@ -179,7 +179,7 @@ public abstract class Agent extends Entite {
                 if (pos.ligne + 1 < getTerrain().getNbRow()) {
                     p.add(new Position(pos.ligne + 1, pos.colonne));
                 }
-                if (pos.colonne + 1 < getTerrain().getNbRow()) {
+                if (pos.colonne + 1 < getTerrain().getNbCol()) {
                     p.add(new Position(pos.ligne, pos.colonne + 1));
                 }
                 if (pos.colonne > 0) {
