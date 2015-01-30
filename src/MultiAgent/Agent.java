@@ -107,6 +107,23 @@ public abstract class Agent extends Entite {
         return positions;
     }
 
+    /**
+     * REppere tout les agent d'une class sur la map
+     * @param classAReperer
+     * @return 
+     */
+    HashSet<Position> reperage(Class classAReperer) {
+        HashSet<Position> positions = new HashSet<>();
+        for (int i = 0; i < terrain.getNbRow(); i++) {
+            for (int j = 0; j < terrain.getNbCol(); j++) {
+                if ((this.terrain.map[i][j]) != null && (this.terrain.map[i][j]).getClass() == (classAReperer)) {
+                    positions.add((this.terrain.map[i][j]).getPos());
+                }
+            }
+        }
+        return positions;
+    }
+
     int distance(Position p1, Position p2) {
         return Math.abs(p1.ligne - p2.ligne) + Math.abs(p1.colonne - p2.colonne);
     }

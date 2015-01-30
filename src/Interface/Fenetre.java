@@ -59,11 +59,13 @@ public class Fenetre extends Application {
     private final Separator separator2 = new Separator();
     private final Separator separator3 = new Separator();
 
-//    private final Image imgHumain = new Image("interface/Images/humain.png", 140, 140, false, true);
+    private final Image imgHumainVision = new Image("interface/Images/humainVision.png", 140, 140, false, true);
     private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, true);
-    private final Image imgZombie = new Image("interface/Images/zombie.png", 20, 20, false, false);
-    private final Image imgEtoile = new Image("interface/Images/Etoile.png", 20, 20, false, false);
+    private final Image imgZombie = new Image("interface/Images/zombie.png", 20, 20, false, true);
+    private final Image imgZombieVision = new Image("interface/Images/zombieVision.png", 100, 100, false, true);
+    private final Image imgEtoile = new Image("interface/Images/Etoile.png", 20, 20, false, true);
     private final Image imgSuperHumain = new Image("interface/Images/superhumain.png", 20, 20, false, true);
+    private final Image imgSuperHumainvision = new Image("interface/Images/superhumainVision.png", 180, 180, false, true);
 
     public Fenetre() {
 
@@ -135,6 +137,13 @@ public class Fenetre extends Application {
             }
         });
 
+        checkVision.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                    refresh(gridPane);
+            }
+        });
+
         slider.setShowTickLabels(true);
         slider.setMin(1);
         slider.setMax(99);
@@ -171,7 +180,7 @@ public class Fenetre extends Application {
         separator1.setOrientation(Orientation.VERTICAL);
         separator2.setOrientation(Orientation.VERTICAL);
         separator3.setOrientation(Orientation.VERTICAL);
-        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton,separator1, labelHumain, labelCountHumain, labelZombie, labelCountZombie,separator2, labelVitesse, slider, separator3, labelVision, checkVision);
+        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton, separator1, labelHumain, labelCountHumain, labelZombie, labelCountZombie, separator2, labelVitesse, slider, separator3, labelVision, checkVision);
 
         flowPaneBottom.setAlignment(Pos.CENTER);
         flowPaneBottom.setHgap(10);
@@ -218,15 +227,32 @@ public class Fenetre extends Application {
                 if (terrain.map[i][j] != null) {
                     ImageView imgView = new ImageView();
                     if (terrain.map[i][j] instanceof Zombie) {
-                        imgView.setImage(imgZombie);
+                        if (checkVision.isSelected()) {
+                            imgView.setImage(imgZombieVision);
+                            imgView.setTranslateX(-40);
+                        } else {
+                            imgView.setImage(imgZombie);
+                        }
                         nbZombie++;
                     } else if (terrain.map[i][j] instanceof SuperHumain) {
-                        imgView.setImage(imgSuperHumain);
-//                        imgView.setTranslateX(-60);
+                        if (checkVision.isSelected()) {
+                            imgView.setImage(imgSuperHumainvision);
+                            imgView.setTranslateX(-80);
+                        } else {
+                            imgView.setImage(imgSuperHumain);
+                        }
+
 //                        imgView.setTranslateY(-60);
                         nbHumain++;
                     } else if (terrain.map[i][j] instanceof Humain) {
-                        imgView.setImage(imgHumain);
+                        if (checkVision.isSelected()) {
+                            imgView.setImage(imgHumainVision);
+                            imgView.setTranslateX(-60);
+                        } else {
+                            imgView.setImage(imgHumain);
+                        }
+
+//                        imgView.setTranslateY(-60);
                         nbHumain++;
                     } else if (terrain.map[i][j] instanceof Etoile) {
                         imgView.setImage(imgEtoile);

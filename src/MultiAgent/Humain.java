@@ -5,8 +5,6 @@
 package MultiAgent;
 
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  *
@@ -37,7 +35,7 @@ public class Humain extends Agent {
         HashSet<Position> posEtoile = null;
         if (!dejaPlace) {
             adversaires = reperage(3, Zombie.class);
-            posEtoile = reperage(terrain.getNbCol()*2, Etoile.class);
+            posEtoile = reperage(Etoile.class);
             if (adversaires.isEmpty()) {
 //                listpos = (HashSet<Position>) getNewPos();
                 if (!posEtoile.isEmpty()) {
