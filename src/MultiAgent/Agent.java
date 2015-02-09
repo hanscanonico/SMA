@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package MultiAgent;
 
 import java.util.HashSet;
@@ -14,7 +10,7 @@ import java.util.Set;
  */
 public abstract class Agent extends Entite {
 
-    MersenneTwisterFast mtsign = new MersenneTwisterFast();
+    static MersenneTwisterFast ms = new MersenneTwisterFast();
 
     public Agent(Position pos, Terrain terrain) {
         super(pos, terrain);
@@ -26,7 +22,7 @@ public abstract class Agent extends Entite {
         int max = 3;
         int min = 0;
 
-        int randomNum = mtsign.nextInt((max - min) + 1) + min;//rand.nextInt((max - min) + 1) + min;
+        int randomNum = ms.nextInt((max - min) + 1) + min;//rand.nextInt((max - min) + 1) + min;
 
         int nouvI = 0, nouvJ = 0;
         switch (randomNum) {

@@ -71,12 +71,9 @@ public class Fenetre extends Application {
 
     }
 
-//    public Fenetre(int col, int row, int nbAgent) {
-//
-//    }
+ 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         terrain.initialiser();
 
         gridPane.setGridLinesVisible(true);
