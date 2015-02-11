@@ -15,3 +15,6 @@ and open the template in the editor.
     -fx-background-position: top left;
     //-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
 }
+#flowpane{
+    -fx-background-color: #FFF;
+}

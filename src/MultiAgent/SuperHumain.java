@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MultiAgent;
 
 import java.util.HashSet;
@@ -13,10 +8,21 @@ import java.util.HashSet;
  */
 public class SuperHumain extends Humain {
 
+    /**
+     * Constructeur de superhumain
+     * @param pos
+     * @param terrain 
+     */
     public SuperHumain(Position pos, Terrain terrain) {
         super(pos, terrain);
     }
 
+    /**
+     * L'agent calcul sa nouvelle position et se deplace lui meme sur la matrice
+     * Si sur la nouvelle position il se trouve un Zombie, ce dernier et eliminé 
+     * et le superhumain prend sa place
+     * Si c'est un humain ou une etoile , le superhumain ne bouge pas
+     */
     @Override
     public void seDeplacer() {
         HashSet<Position> adversaires;

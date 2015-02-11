@@ -145,6 +145,10 @@ public final class Terrain extends Thread {
         return sb.toString();
     }
 
+    /**
+     * Initialise la matrice en placant à des position aléatoire des humains et des zombie 
+     * Avec une proportion de 50/50%
+     */
     public void initialiser() {
 
         nbTour = 0;
@@ -165,6 +169,9 @@ public final class Terrain extends Thread {
 //        this.map[nbRow / 2][nbCol / 2+1] = new Zombie(new Position(nbRow / 2, nbCol / 2+1), this);
     }
 
+    /**
+     * Declare tout les agent de la matrice comme non deplacer
+     */
     public void remiseMouvementAZero() {
         for (int i = 0; i < nbRow; i++) {
             for (int j = 0; j < nbCol; j++) {
@@ -175,6 +182,10 @@ public final class Terrain extends Thread {
         }
     }
 
+    /**
+     * Compte le nombre d'humain dans la matrice
+     * @return 
+     */
     public int compterNbHumains() {
 
         int nbHumains = 0;
@@ -189,6 +200,9 @@ public final class Terrain extends Thread {
         return nbHumains;
     }
 
+    /**
+     * Parcours tout les agent de la matrice et apelle leur methode sedeplacer
+     */
     public void deplacerLesAgents() {
 
         remiseMouvementAZero();
@@ -219,6 +233,9 @@ public final class Terrain extends Thread {
         }
     }
 
+    /**
+     * Vide la matrice et replace de nouveau agents
+     */
     public void reset() {
         map = new Entite[nbRow][nbCol];
         initialiser();

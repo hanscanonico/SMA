@@ -48,6 +48,8 @@ public class Fenetre extends Application {
     private final Label labelVision = new Label("Champ de vision :");
     private final Label labelCountHumain = new Label();
     private final Label labelCountZombie = new Label();
+    private final Label labelTour = new Label("Nombre de tours :");
+    private final Label labelCountTour = new Label();
     private final GridPane gridPane = new GridPane();
     private final BorderPane rootPane = new BorderPane();
     private final Slider slider = new Slider(1, 100, 50);
@@ -58,6 +60,8 @@ public class Fenetre extends Application {
     private final Separator separator1 = new Separator();
     private final Separator separator2 = new Separator();
     private final Separator separator3 = new Separator();
+    private final Separator separator4 = new Separator();
+    private final Separator separator5 = new Separator();
 
     private final Image imgHumainVision = new Image("interface/Images/humainVision.png", 140, 140, false, true);
     private final Image imgHumain = new Image("interface/Images/humain.png", 20, 20, false, true);
@@ -188,13 +192,14 @@ public class Fenetre extends Application {
         separator1.setOrientation(Orientation.VERTICAL);
         separator2.setOrientation(Orientation.VERTICAL);
         separator3.setOrientation(Orientation.VERTICAL);
-        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton, separator1, labelHumain, labelCountHumain, labelZombie, labelCountZombie, separator2, labelVitesse, slider, separator3, labelVision, checkVision);
-
+        separator4.setOrientation(Orientation.VERTICAL);
+        flowPaneBottom.getChildren().addAll(playButton, stepButton, resetButton, separator1, labelHumain, labelCountHumain, separator5, labelZombie, labelCountZombie, separator2, labelVitesse, slider, separator3, labelVision, checkVision, separator4, labelTour, labelCountTour);
+        flowPaneBottom.setId("flowpane");
         flowPaneBottom.setAlignment(Pos.CENTER);
         flowPaneBottom.setHgap(10);
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Simulation Multi Agent");
+        primaryStage.setTitle("SMA - Hans CANONICO et Amine BELKEDAH");
         primaryStage.setResizable(false);
         primaryStage.show();
 
@@ -274,6 +279,7 @@ public class Fenetre extends Application {
         }
         labelCountHumain.setText(Integer.toString(nbHumain));
         labelCountZombie.setText(Integer.toString(nbZombie));
+        labelCountTour.setText(Integer.toString(terrain.getNbTour()));
 
     }
 
