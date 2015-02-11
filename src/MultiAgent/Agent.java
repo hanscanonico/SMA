@@ -1,7 +1,6 @@
 package MultiAgent;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -10,53 +9,28 @@ import java.util.Set;
  */
 public abstract class Agent extends Entite {
 
+    /**
+     * générateur de nombre aléatoire ( seed basé sur le temp)
+     */
     static MersenneTwisterFast ms = new MersenneTwisterFast();
 
+    /**
+     * Constructeur abstrait d'Agent
+     *
+     * @param pos
+     * @param terrain
+     */
     public Agent(Position pos, Terrain terrain) {
         super(pos, terrain);
         dejaPlace = false;
     }
 
-    public Position calculNouvellelPosition(int n, int m) {
-        Random rand = new Random();
-        int max = 3;
-        int min = 0;
-
-        int randomNum = ms.nextInt((max - min) + 1) + min;//rand.nextInt((max - min) + 1) + min;
-
-        int nouvI = 0, nouvJ = 0;
-        switch (randomNum) {
-            case 0:
-                nouvI = (pos.getLigne() - 1) % n;
-                if (nouvI < 0) {
-                    nouvI = n - 1;
-                }
-                nouvJ = (pos.getColonne());
-                break;
-            case 1:
-                nouvI = (pos.getLigne());
-                nouvJ = (pos.getColonne() - 1) % m;
-                if (nouvJ < 0) {
-                    nouvJ = m - 1;
-                }
-                break;
-            case 2:
-                nouvI = (pos.getLigne() + 1) % n;
-                nouvJ = (pos.getColonne());
-                break;
-            case 3:
-                nouvI = (pos.getLigne());
-                nouvJ = (pos.getColonne() + 1) % m;
-                break;
-        }
-        // System.out.println(nouvI + " - "+ nouvJ);
-
-        Position p = new Position(nouvI, nouvJ);
-        //setPos(p);
-        return p;
-
-    }
-
+    /**
+     * Calcul de nouvelles position possible pour le deplacement d'une case
+     *
+     * @return un set des position adjacente ( voisinage de von neuman) par
+     * rapport a la positionde l'agent
+     */
     public Set<Position> getNewPos() {
 
         HashSet<Position> listPos = new HashSet();
@@ -76,6 +50,9 @@ public abstract class Agent extends Entite {
         return listPos;
     }
 
+    /**
+     * L'agent calcul sont deplacement
+     */
     public abstract void seDeplacer();
 
     /**
@@ -105,8 +82,9 @@ public abstract class Agent extends Entite {
 
     /**
      * REppere tout les agent d'une class sur la map
+     *
      * @param classAReperer
-     * @return 
+     * @return
      */
     HashSet<Position> reperage(Class classAReperer) {
         HashSet<Position> positions = new HashSet<>();
@@ -120,10 +98,21 @@ public abstract class Agent extends Entite {
         return positions;
     }
 
+    /**
+     * Calcul de la distance entre 2 position dans une grille (distance en
+     * nombre de cases qui separe 2 positions)
+     *
+     * @param p1
+     * @param p2
+     * @return la distance en entier
+     */
     int distance(Position p1, Position p2) {
         return Math.abs(p1.ligne - p2.ligne) + Math.abs(p1.colonne - p2.colonne);
     }
 
+    /**
+     * Enum des direction possible
+     */
     public enum Cardinalite {
 
         NORD,
@@ -137,6 +126,13 @@ public abstract class Agent extends Entite {
 
     }
 
+    /**
+     * Calcul la direction dans laquelle se trouve la position enemi par rapport
+     * a la position actuelle
+     *
+     * @param enemi
+     * @return
+     */
     Cardinalite direction(Position enemi) {
         if (enemi.colonne < pos.colonne) {
             if (enemi.ligne < pos.ligne) {
@@ -164,6 +160,14 @@ public abstract class Agent extends Entite {
 
     }
 
+    /**
+     * Calcul des position possible pour s'eloigner de la position enemi la plus
+     * proche
+     *
+     * @param positionsAFuire Les positions des enemi visible dans le champ de
+     * vision
+     * @return un hashset de positions possible pour s'eloigne de l'enemi
+     */
     protected HashSet<Position> fuire(HashSet<Position> positionsAFuire) {
         HashSet<Position> p = new HashSet<>();
         Position plusProche = (Position) (positionsAFuire.toArray())[0];
@@ -258,6 +262,15 @@ public abstract class Agent extends Entite {
         return p;
     }
 
+    /**
+     * Methode similaire a la methode de fuite sauf que ici on cherche à se
+     * rapprocher de la position la plus proche dans le chmp de vision
+     *
+     * @param positionsAPoursuivre hashset des postion des agent visibles dans
+     * le champ de vision
+     * @return une liste de position sur lesquelle on peut se deplacer pour se
+     * rapprocher
+     */
     protected HashSet<Position> poursuivre(HashSet<Position> positionsAPoursuivre) {
         HashSet<Position> p = new HashSet<>();
         Position plusProche = (Position) (positionsAPoursuivre.toArray())[0];

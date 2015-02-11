@@ -10,6 +10,11 @@ package MultiAgent;
  */
 public class Etoile extends Ressource {
 
+    /**
+     *Constructeur de la ressource Etoile
+     * @param pos
+     * @param terrain
+     */
     public Etoile(Position pos, Terrain terrain) {
         super(pos, terrain);
     }

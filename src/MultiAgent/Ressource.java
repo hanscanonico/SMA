@@ -8,11 +8,12 @@ package MultiAgent;
  *
  * @author canonico
  */
-public class Ressource extends Entite {
+public abstract class Ressource extends Entite {
 
     /**
-     *
+     * Constructeur abstrait de ressource
      * @param pos
+     * @param terrain
      */
     public Ressource(Position pos, Terrain terrain) {
         super(pos, terrain);

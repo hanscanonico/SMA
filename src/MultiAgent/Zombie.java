@@ -13,7 +13,6 @@ import java.util.HashSet;
 public class Zombie extends Agent {
 
     //static private MersenneTwisterFast ms = new MersenneTwisterFast();
-
     public Zombie(Position pos, Terrain terrain) {
         super(pos, terrain);
     }

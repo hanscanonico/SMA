@@ -71,7 +71,13 @@ public class Fenetre extends Application {
 
     }
 
- 
+    /**
+     * Initialisation du terrain et construction les composant graphiques de la
+     * fenetre
+     *
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         terrain.initialiser();
@@ -85,7 +91,6 @@ public class Fenetre extends Application {
             @Override
             public void handle(Event event) {
                 terrain.deplacerLesAgents();
-                // System.out.println(t);
                 refresh(gridPane);
 
             }
@@ -93,7 +98,6 @@ public class Fenetre extends Application {
         });
 
         timeline = new Timeline(key2);
-
         timeline.setCycleCount(Timeline.INDEFINITE);
 
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -107,37 +111,37 @@ public class Fenetre extends Application {
             }
         });
 
-        resetButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (timeline.getStatus() == Animation.Status.RUNNING) {
-                    timeline.pause();
-                }
-                terrain.reset();
-                refresh(gridPane);
+        /**
+         * Le bouton reset : reinitialise le terrain et met en pause l'animation
+         */
+        resetButton.setOnAction((ActionEvent event) -> {
+            if (timeline.getStatus() == Animation.Status.RUNNING) {
+                timeline.pause();
+            }
+            terrain.reset();
+            refresh(gridPane);
+        });
+
+        /**
+         * Bouton Play/pause
+         */
+        playButton.setOnAction((ActionEvent event) -> {
+            if (timeline.getStatus() == Animation.Status.RUNNING) {
+                timeline.pause();
+            } else {
+                timeline.play();
             }
         });
 
-        playButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //gridPane.getChildren().clear();
-
-                //t.deplacerLesAgents();
-                //step(gridPane);
-                if (timeline.getStatus() == Animation.Status.RUNNING) {
-                    timeline.pause();
-                } else {
-                    timeline.play();
-                }
-
-            }
-        });
-
+        /**
+         * Check box d'affichage du champ de vision refresh l'affichage, la
+         * fonction refresh gere l'affichage ou non du champ de vision en
+         * fonction de la valeur du checkbox
+         */
         checkVision.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                    refresh(gridPane);
+                refresh(gridPane);
             }
         });
 
@@ -145,6 +149,11 @@ public class Fenetre extends Application {
         slider.setMin(1);
         slider.setMax(99);
 
+        /**
+         * Slider de controle de la vitesse Detruit la timeline actuelle et en
+         * creer une nouvelle avec le nouveau temp d'attente entre 2 frame de
+         * l'animation
+         */
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                     Number old_val, Number new_val) {
@@ -154,7 +163,6 @@ public class Fenetre extends Application {
                     @Override
                     public void handle(Event event) {
                         terrain.deplacerLesAgents();
-                        // System.out.println(t);
                         refresh(gridPane);
 
                     }
@@ -169,6 +177,9 @@ public class Fenetre extends Application {
             }
         });
 
+        /**
+         * fichier css de la fenetre
+         */
         scene.getStylesheets().addAll(this.getClass().getResource("Images/style.css").toExternalForm());
 
         rootPane.setCenter(gridPane);
@@ -208,7 +219,7 @@ public class Fenetre extends Application {
     }
 
     /**
-     * Mise a jour de la position des agents
+     * Mise a jour de la position des agents sur la grille d'affichage
      *
      * @param root
      */
@@ -266,6 +277,11 @@ public class Fenetre extends Application {
 
     }
 
+    /**
+     * Fonction Main du programme
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

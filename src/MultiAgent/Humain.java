@@ -12,14 +12,23 @@ import java.util.HashSet;
  */
 public class Humain extends Agent {
 
+    /**
+     * Compteur de creaion d'humain pour affecter un id unique a chaque Humain
+     * Utiliser pour differencer les Humains avec l'affichage texte
+     */
     static int compteur = 0;
+    private int id;
 
+    /**
+     * Constructeur d'agent Humain
+     * @param pos
+     * @param terrain 
+     */
     public Humain(Position pos, Terrain terrain) {
         super(pos, terrain);
         id = compteur;
         compteur++;
     }
-    int id;
 
     @Override
     public String toString() {
@@ -37,14 +46,12 @@ public class Humain extends Agent {
             adversaires = reperage(3, Zombie.class);
             posEtoile = reperage(Etoile.class);
             if (adversaires.isEmpty()) {
-//                listpos = (HashSet<Position>) getNewPos();
                 if (!posEtoile.isEmpty()) {
                     listpos = poursuivre(posEtoile);
                 }
             } else {
                 listpos = fuire(adversaires);
             }
-            // float rand=ms.nextFloat(true,true);
 
             if (listpos != null && !listpos.isEmpty()) {
 

@@ -10,67 +10,124 @@ package MultiAgent;
  */
 public final class Terrain extends Thread {
 
+    /**
+     * nombre de ligne su terrain
+     */
     private int nbRow;
+    /**
+     * nombre de colonne du terrain
+     */
     private int nbCol;
+    /**
+     * Nombre de tour effetuer
+     */
     private int nbTour;
-    public static int etoile=0;
+    /**
+     * nombre d'etoile sur le terrain
+     */
+    public static int etoile = 0;
+    /**
+     * Generateur de nombre aléatoire
+     */
     private MersenneTwisterFast ms = new MersenneTwisterFast();
 
+    /**
+     * Instance unique du terrain
+     */
     private static Terrain terrain;
+
+    /**
+     * Acceseur du nombre de tour
+     *
+     * @return
+     */
     public int getNbTour() {
         return nbTour;
     }
 
+    /**
+     * Mutateur du nombre de tour
+     *
+     * @param nbTour
+     */
     public void setNbTour(int nbTour) {
         this.nbTour = nbTour;
     }
+
+    /**
+     * Nutateur du nombre de ligne
+     *
+     * @param nbRow
+     */
     public void setNbRow(int nbRow) {
         this.nbRow = nbRow;
     }
 
+    /**
+     * Mutateur du nombre de colonne
+     *
+     * @param nbCol
+     */
     public void setNbCol(int nbCol) {
         this.nbCol = nbCol;
     }
 
+    /**
+     * Matrice des entites
+     */
     public Entite[][] map;
 
+    /**
+     * Acceseur de la matrice des entite
+     *
+     * @return
+     */
     public Entite[][] getMap() {
         return map;
     }
 
+    /**
+     * Acceseur nombre de ligne
+     *
+     * @return
+     */
     public int getNbRow() {
         return nbRow;
     }
 
+    /**
+     *Accesseur nombre de colonne
+     * @return
+     */
     public int getNbCol() {
         return nbCol;
     }
 
-    public static Terrain getInstance(int n,int m)
-    {
-        if(terrain==null)
-        {
-            terrain=new Terrain(n, m);
+    /**
+     * Acceseur a l'instance unique du terrain
+     * @param n 
+     * @param m
+     * @return 
+     */
+    public static Terrain getInstance(int n, int m) {
+        if (terrain == null) {
+            terrain = new Terrain(n, m);
         }
         return terrain;
     }
+
+    /**
+     * Constructeur privé du terrain
+     * @param n nombre de lignes
+     * @param m nmbre de colonnes
+     */
     private Terrain(int n, int m) {
         map = new Entite[n][m];
         setNbRow(n);
         setNbCol(m);
     }
 
-//    public void run() throws IOException {
-//
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println(this);
-//            deplacerLesAgents();
-//
-//        }
-    @Override
-    public void run() {
 
-    }
 
     @Override
     public String toString() {
@@ -88,11 +145,10 @@ public final class Terrain extends Thread {
         return sb.toString();
     }
 
-    
     public void initialiser() {
 
-        nbTour=0;
-        etoile=0;
+        nbTour = 0;
+        etoile = 0;
         int li, col;
         for (int i = 0; i < 20; i++) {
             li = ms.nextInt(getNbRow());
@@ -145,30 +201,27 @@ public final class Terrain extends Thread {
             }
 
         }
-        boolean place=false;
+        boolean place = false;
         nbTour++;
-        if(nbTour%50==0 && etoile==0)
-        {
-            do{
-                
-                 int li, col;
-                 li = ms.nextInt(getNbRow());
-                 col = ms.nextInt(getNbCol());
-                 if(this.map[li][col]==null)
-                 {
-                    this.map[li][col]=new Etoile(new Position(li, col), this);
-                    place=true;
-                 }
+        if (nbTour % 50 == 0 && etoile == 0) {
+            do {
 
-                 
-            }while (!place);
-            etoile ++;
+                int li, col;
+                li = ms.nextInt(getNbRow());
+                col = ms.nextInt(getNbCol());
+                if (this.map[li][col] == null) {
+                    this.map[li][col] = new Etoile(new Position(li, col), this);
+                    place = true;
+                }
+
+            } while (!place);
+            etoile++;
         }
     }
 
     public void reset() {
-       map = new Entite[nbRow][nbCol];
-       initialiser();
+        map = new Entite[nbRow][nbCol];
+        initialiser();
     }
 
 }
