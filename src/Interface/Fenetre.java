@@ -199,7 +199,7 @@ public class Fenetre extends Application {
         flowPaneBottom.setHgap(10);
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("SMA - Hans CANONICO et Amine BELKEDAH");
+        primaryStage.setTitle("Simulation Multi Agent");
         primaryStage.setResizable(false);
         primaryStage.show();
 
